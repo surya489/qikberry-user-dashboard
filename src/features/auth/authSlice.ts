@@ -1,13 +1,19 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
+
+import {
+  clearSession,
+  getSessionUsername,
+  setSessionUsername,
+} from "../profile/profileStorage";
 import { type AuthState } from "./authTypes";
 
 const getInitialState = (): AuthState => {
-  const storedUser = localStorage.getItem("user");
+  const sessionUsername = getSessionUsername();
 
-  if (storedUser) {
+  if (sessionUsername) {
     return {
       isAuthenticated: true,
-      username: storedUser,
+      username: sessionUsername,
     };
   }
 
@@ -17,28 +23,29 @@ const getInitialState = (): AuthState => {
   };
 };
 
-const initialState = getInitialState();
-
 const authSlice = createSlice({
   name: "auth",
-  initialState,
+  initialState: getInitialState(),
   reducers: {
     login: (state, action: PayloadAction<string>) => {
       state.isAuthenticated = true;
       state.username = action.payload;
-
-      localStorage.setItem("user", action.payload);
+      setSessionUsername(action.payload);
     },
-
     logout: (state) => {
       state.isAuthenticated = false;
       state.username = "";
-
-      localStorage.removeItem("user");
+      clearSession();
+    },
+    syncAuthUsername: (state, action: PayloadAction<string>) => {
+      if (state.isAuthenticated) {
+        state.username = action.payload;
+        setSessionUsername(action.payload);
+      }
     },
   },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, syncAuthUsername } = authSlice.actions;
 
 export default authSlice.reducer;
