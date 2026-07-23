@@ -1,13 +1,13 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useRef, useState, type ReactNode } from "react"; // useEffect
 import clsx from "clsx";
-import { ChevronLeft, ChevronRight } from "lucide-react";
-import { Autoplay, EffectCreative, Pagination } from "swiper/modules";
+// import { ChevronLeft, ChevronRight } from "lucide-react";
+import { Autoplay, EffectCreative } from "swiper/modules"; // Pagination
 import { Swiper, SwiperSlide } from "swiper/react";
 import type { Swiper as SwiperType } from "swiper";
 
 import "swiper/css";
 import "swiper/css/effect-creative";
-import "swiper/css/pagination";
+// import "swiper/css/pagination";
 
 interface ContentSliderProps<T> {
   items: T[];
@@ -40,41 +40,41 @@ const ContentSlider = <T,>({
   accent = "indigo",
 }: ContentSliderProps<T>) => {
   const swiperRef = useRef<SwiperType | null>(null);
-  const paginationRef = useRef<HTMLDivElement>(null);
+  // const paginationRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
   const styles = accentStyles[accent];
 
-  useEffect(() => {
-    const swiper = swiperRef.current;
+  // useEffect(() => {
+  //   const swiper = swiperRef.current;
 
-    if (!swiper || !paginationRef.current) {
-      return;
-    }
+  //   if (!swiper || !paginationRef.current) {
+  //     return;
+  //   }
 
-    swiper.params.pagination = {
-      el: paginationRef.current,
-      clickable: true,
-      bulletClass: "slider-dot",
-      bulletActiveClass: styles.dotActive,
-    };
+  //   swiper.params.pagination = {
+  //     el: paginationRef.current,
+  //     clickable: true,
+  //     bulletClass: "slider-dot",
+  //     bulletActiveClass: styles.dotActive,
+  //   };
 
-    swiper.pagination.destroy();
-    swiper.pagination.init();
-    swiper.pagination.render();
-    swiper.pagination.update();
-  }, [items.length, styles.dotActive]);
+  //   swiper.pagination.destroy();
+  //   swiper.pagination.init();
+  //   swiper.pagination.render();
+  //   swiper.pagination.update();
+  // }, [items.length, styles.dotActive]);
 
   if (items.length === 0) {
     return null;
   }
 
-  const handlePrevious = () => {
-    swiperRef.current?.slidePrev();
-  };
+  // const handlePrevious = () => {
+  //   swiperRef.current?.slidePrev();
+  // };
 
-  const handleNext = () => {
-    swiperRef.current?.slideNext();
-  };
+  // const handleNext = () => {
+  //   swiperRef.current?.slideNext();
+  // };
 
   return (
     <div className="relative flex h-full flex-col">
@@ -93,7 +93,7 @@ const ContentSlider = <T,>({
 
       <div className="relative flex flex-1 flex-col overflow-hidden rounded-[1.6rem] border border-slate-200/80 bg-gradient-to-br from-slate-50 via-white to-slate-100 p-4 shadow-inner dark:border-slate-700/80 dark:from-slate-900 dark:via-slate-900/90 dark:to-slate-800/80">
         <Swiper
-          modules={[Autoplay, EffectCreative, Pagination]}
+          modules={[Autoplay, EffectCreative]} // Pagination
           effect="creative"
           creativeEffect={{
             prev: {
@@ -133,7 +133,7 @@ const ContentSlider = <T,>({
         </Swiper>
 
         <div className="mt-5 flex shrink-0 items-center justify-between gap-3 border-t border-slate-200/80 pt-4 dark:border-slate-700/80">
-          <div className="flex items-center gap-2">
+          {/* <div className="flex items-center gap-2">
             <button
               type="button"
               aria-label="Previous slide"
@@ -158,7 +158,7 @@ const ContentSlider = <T,>({
             </button>
           </div>
 
-          <div ref={paginationRef} className="flex flex-1 items-center justify-center gap-1.5" />
+          <div ref={paginationRef} className="flex flex-1 items-center justify-center gap-1.5" /> */}
 
           <p
             className={clsx(
