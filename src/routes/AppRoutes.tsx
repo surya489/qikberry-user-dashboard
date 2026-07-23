@@ -27,7 +27,7 @@ const AppRoutes = () => {
                         </ProtectedRoute>
                     }
                 >
-                    <Route index element={<Navigate to="posts" replace />} />
+                    <Route index element={<Navigate to="/home" replace />} />
                     <Route path="posts" element={<PostsPage />} />
                     <Route path="photos" element={<PhotosPage />} />
                 </Route>
