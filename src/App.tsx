@@ -1,12 +1,7 @@
-import './App.css'
+import AppRoutes from "./routes/AppRoutes";
 
 function App() {
-
-  return (
-    <div className="text-center h-screen justify-center items-center flex text-3xl font-bold">
-      Let's Code
-    </div>
-  )
+  return <AppRoutes />;
 }
 
-export default App
+export default App;
