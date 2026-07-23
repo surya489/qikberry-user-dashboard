@@ -1,4 +1,5 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import ProtectedRoute from "./ProtectedRoute";
 
 import HomePage from "../pages/Home";
 import LoginPage from "../pages/Login";
@@ -18,7 +19,14 @@ const AppRoutes = () => {
                 <Route path="/login" element={<LoginPage />} />
                 
                 {/* Home Layout */}
-                <Route path="/home" element={<HomePage />}>
+                <Route 
+                    path="/home" 
+                    element={
+                        <ProtectedRoute>
+                            <HomePage />
+                        </ProtectedRoute>
+                    }
+                >
                     <Route index element={<Navigate to="posts" replace />} />
                     <Route path="posts" element={<PostsPage />} />
                     <Route path="photos" element={<PhotosPage />} />
