@@ -4,6 +4,7 @@ interface LoadingSkeletonProps {
   count?: number;
   variant?: "card" | "text" | "slider" | "photo" | "post";
   className?: string;
+  inline?: boolean;
 }
 
 const PhotoSkeletonCard = () => (
@@ -44,6 +45,7 @@ const LoadingSkeleton = ({
   count = 3,
   variant = "card",
   className = "",
+  inline = false,
 }: LoadingSkeletonProps) => {
   if (variant === "slider") {
     return (
@@ -63,6 +65,14 @@ const LoadingSkeleton = ({
   }
 
   if (variant === "photo") {
+    const cards = Array.from({ length: count }, (_, index) => (
+      <PhotoSkeletonCard key={index} />
+    ));
+
+    if (inline) {
+      return <>{cards}</>;
+    }
+
     return (
       <div
         className={clsx(
@@ -70,9 +80,7 @@ const LoadingSkeleton = ({
           className
         )}
       >
-        {Array.from({ length: count }, (_, index) => (
-          <PhotoSkeletonCard key={index} />
-        ))}
+        {cards}
       </div>
     );
   }

@@ -1,5 +1,5 @@
-import { ImageOff } from "lucide-react";
-import { useEffect, useState } from "react";
+import { ImageOff, LoaderCircle } from "lucide-react";
+import { useState } from "react";
 import clsx from "clsx";
 
 interface ImageWithFallbackProps {
@@ -17,18 +17,16 @@ const ImageWithFallback = ({
 }: ImageWithFallbackProps) => {
   const [currentSrc, setCurrentSrc] = useState(src);
   const [hasError, setHasError] = useState(false);
-
-  useEffect(() => {
-    setHasError(false);
-    setCurrentSrc(src);
-  }, [src]);
+  const [isLoading, setIsLoading] = useState(true);
 
   const handleError = () => {
     if (fallbackSrc && currentSrc !== fallbackSrc) {
+      setIsLoading(true);
       setCurrentSrc(fallbackSrc);
       return;
     }
 
+    setIsLoading(false);
     setHasError(true);
   };
 
@@ -47,13 +45,32 @@ const ImageWithFallback = ({
   }
 
   return (
-    <img
-      src={currentSrc}
-      alt={alt}
-      className={className}
-      loading="lazy"
-      onError={handleError}
-    />
+    <>
+      {isLoading ? (
+        <div
+          className="absolute inset-0 z-10 flex items-center justify-center bg-slate-100/90 dark:bg-slate-800/90"
+          role="status"
+          aria-label="Loading image preview"
+        >
+          <LoaderCircle
+            size={30}
+            className="animate-spin text-indigo-600 dark:text-indigo-400"
+          />
+        </div>
+      ) : null}
+      <img
+        src={currentSrc}
+        alt={alt}
+        className={clsx(
+          className,
+          "transition-opacity duration-500",
+          isLoading ? "opacity-0" : "opacity-100"
+        )}
+        loading="lazy"
+        onLoad={() => setIsLoading(false)}
+        onError={handleError}
+      />
+    </>
   );
 };
 

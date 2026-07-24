@@ -1,4 +1,4 @@
-import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from "react";
+import { type ChangeEvent, type FormEvent, useRef, useState } from "react";
 import { Camera, Lock, User } from "lucide-react";
 
 import PageLayout from "@/components/layout/PageLayout/PageLayout";
@@ -21,6 +21,8 @@ const ProfilePage = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [username, setUsername] = useState(profileUsername);
+  const [isUpdatingPassword, setIsUpdatingPassword] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [avatarPreview, setAvatarPreview] = useState<string | null>(avatar);
@@ -28,11 +30,6 @@ const ProfilePage = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [showSuccess, setShowSuccess] = useState(false);
   const [saving, setSaving] = useState(false);
-
-  useEffect(() => {
-    setUsername(profileUsername);
-    setAvatarPreview(avatar);
-  }, [profileUsername, avatar]);
 
   const handleAvatarChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -74,12 +71,26 @@ const ProfilePage = () => {
       nextErrors.username = "Username is required.";
     }
 
-    if (password && password.length < 4) {
-      nextErrors.password = "Password must be at least 4 characters.";
-    }
+    const currentProfile = loadProfile();
 
-    if (password && password !== confirmPassword) {
-      nextErrors.confirmPassword = "Passwords do not match.";
+    if (isUpdatingPassword) {
+      if (!currentPassword) {
+        nextErrors.currentPassword = "Current password is required.";
+      } else if (currentPassword !== currentProfile.password) {
+        nextErrors.currentPassword = "Current password is incorrect.";
+      }
+
+      if (!password) {
+        nextErrors.password = "New password is required.";
+      } else if (password.length < 4) {
+        nextErrors.password = "Password must be at least 4 characters.";
+      }
+
+      if (!confirmPassword) {
+        nextErrors.confirmPassword = "Please confirm your new password.";
+      } else if (password !== confirmPassword) {
+        nextErrors.confirmPassword = "Passwords do not match.";
+      }
     }
 
     if (Object.keys(nextErrors).length > 0) {
@@ -89,10 +100,9 @@ const ProfilePage = () => {
 
     setSaving(true);
 
-    const currentProfile = loadProfile();
     const updatedProfile = {
       username: username.trim(),
-      password: password.trim() || currentProfile.password,
+      password: isUpdatingPassword ? password : currentProfile.password,
       avatar: avatarPreview,
     };
 
@@ -102,8 +112,10 @@ const ProfilePage = () => {
       dispatch(syncAuthUsername(updatedProfile.username));
     }
 
+    setCurrentPassword("");
     setPassword("");
     setConfirmPassword("");
+    setIsUpdatingPassword(false);
     setErrors({});
     setSuccessMessage("Profile updated successfully.");
     setShowSuccess(true);
@@ -195,31 +207,81 @@ const ProfilePage = () => {
             }}
           />
 
-          <Input
-            type="password"
-            label="New password"
-            placeholder="Leave blank to keep current password"
-            value={password}
-            error={errors.password}
-            leftIcon={<Lock size={18} />}
-            onChange={(event) => {
-              setPassword(event.target.value);
-              setErrors((previous) => ({ ...previous, password: "" }));
-            }}
-          />
+          <div className="rounded-2xl border border-slate-200 p-4 dark:border-slate-700">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h3 className="font-semibold text-slate-900 dark:text-slate-100">
+                  Password
+                </h3>
+                <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
+                  Your password remains unchanged unless you update it here.
+                </p>
+              </div>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  setIsUpdatingPassword((current) => !current);
+                  setCurrentPassword("");
+                  setPassword("");
+                  setConfirmPassword("");
+                  setErrors((previous) => ({
+                    ...previous,
+                    currentPassword: "",
+                    password: "",
+                    confirmPassword: "",
+                  }));
+                }}
+              >
+                <Lock size={16} />
+                {isUpdatingPassword ? "Cancel" : "Reset"}
+              </Button>
+            </div>
 
-          <Input
-            type="password"
-            label="Confirm password"
-            placeholder="Confirm your new password"
-            value={confirmPassword}
-            error={errors.confirmPassword}
-            leftIcon={<Lock size={18} />}
-            onChange={(event) => {
-              setConfirmPassword(event.target.value);
-              setErrors((previous) => ({ ...previous, confirmPassword: "" }));
-            }}
-          />
+            {isUpdatingPassword ? (
+              <div className="mt-5 space-y-5">
+                <Input
+                  type="password"
+                  label="Current password"
+                  placeholder="Enter your current password"
+                  value={currentPassword}
+                  error={errors.currentPassword}
+                  leftIcon={<Lock size={18} />}
+                  onChange={(event) => {
+                    setCurrentPassword(event.target.value);
+                    setErrors((previous) => ({ ...previous, currentPassword: "" }));
+                  }}
+                />
+
+                <Input
+                  type="password"
+                  label="New password"
+                  placeholder="Enter your new password"
+                  value={password}
+                  error={errors.password}
+                  leftIcon={<Lock size={18} />}
+                  onChange={(event) => {
+                    setPassword(event.target.value);
+                    setErrors((previous) => ({ ...previous, password: "" }));
+                  }}
+                />
+
+                <Input
+                  type="password"
+                  label="Confirm new password"
+                  placeholder="Confirm your new password"
+                  value={confirmPassword}
+                  error={errors.confirmPassword}
+                  leftIcon={<Lock size={18} />}
+                  onChange={(event) => {
+                    setConfirmPassword(event.target.value);
+                    setErrors((previous) => ({ ...previous, confirmPassword: "" }));
+                  }}
+                />
+              </div>
+            ) : null}
+          </div>
 
           <FadeAlert
             message={successMessage}

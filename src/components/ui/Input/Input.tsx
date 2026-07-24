@@ -35,8 +35,8 @@ const Input = ({
         </label>
       ) : null}
 
-      <div className="flex items-center rounded-xl border border-slate-300 bg-white px-3 transition-all duration-200 focus-within:border-indigo-500 focus-within:ring-2 focus-within:ring-indigo-200 dark:border-slate-600 dark:bg-slate-800 dark:focus-within:border-indigo-400 dark:focus-within:ring-indigo-900">
-        {leftIcon ? <span className="text-slate-500 dark:text-slate-400">{leftIcon}</span> : null}
+      <div className="flex items-center rounded-xl border border-slate-300 bg-white px-3 transition-all duration-200 dark:border-slate-600 dark:bg-slate-800 dark:focus-within:border-indigo-400 dark:focus-within:ring-indigo-900">
+        {leftIcon ? <span className="text-slate-500 dark:text-slate-400 mr-2">{leftIcon}</span> : null}
 
         <input
           id={inputId}

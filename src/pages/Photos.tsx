@@ -17,7 +17,10 @@ import { useScrollThreshold } from "@/hooks/useScrollThreshold";
 import type { PhotoType } from "@/types/photo";
 import { PHOTOS_PER_PAGE, SCROLL_TOP_THRESHOLD, SEARCH_DEBOUNCE_MS } from "@/utils/constants";
 
-const PHOTO_SKELETON_ROW_COUNT = 3;
+const INITIAL_PHOTO_SKELETON_COUNT = 9;
+const DESKTOP_COLUMN_COUNT = 3;
+const EXTRA_SKELETON_ROWS = 1;
+const LOAD_MORE_DELAY_MS = 1000;
 
 const PhotosPage = () => {
   const { data: photos, loading, error } = useAsyncData<PhotoType[]>("photos", getPhotos, []);
@@ -26,6 +29,8 @@ const PhotosPage = () => {
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [visibleCount, setVisibleCount] = useState(PHOTOS_PER_PAGE);
   const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const isLoadingMoreRef = useRef(false);
+  const loadMoreTimerRef = useRef<number | null>(null);
   const showScrollTop = useScrollThreshold(SCROLL_TOP_THRESHOLD);
   const { debouncedValue: debouncedQuery, isPending: isSearching } = useDebouncedValue(
     query,
@@ -63,11 +68,31 @@ const PhotosPage = () => {
 
   const visiblePhotos = filteredPhotos.slice(0, visibleCount);
   const hasMorePhotos = visibleCount < filteredPhotos.length;
+  const incompleteRowSlots =
+    (DESKTOP_COLUMN_COUNT - (visiblePhotos.length % DESKTOP_COLUMN_COUNT)) %
+    DESKTOP_COLUMN_COUNT;
+  const loadingSkeletonCount =
+    incompleteRowSlots + DESKTOP_COLUMN_COUNT * EXTRA_SKELETON_ROWS;
 
-  useEffect(() => {
+  const resetVisiblePhotos = () => {
+    if (loadMoreTimerRef.current !== null) {
+      window.clearTimeout(loadMoreTimerRef.current);
+      loadMoreTimerRef.current = null;
+    }
     setVisibleCount(PHOTOS_PER_PAGE);
     setIsLoadingMore(false);
-  }, [debouncedQuery, selectedAlbumId]);
+    isLoadingMoreRef.current = false;
+  };
+
+  const handleQueryChange = (value: string) => {
+    setQuery(value);
+    resetVisiblePhotos();
+  };
+
+  const handleAlbumChange = (value: string) => {
+    setSelectedAlbumId(value);
+    resetVisiblePhotos();
+  };
 
   useEffect(() => {
     if (!sentinelRef.current || !hasMorePhotos || loading || isSearching) {
@@ -76,14 +101,17 @@ const PhotosPage = () => {
 
     const observer = new IntersectionObserver(
       (entries) => {
-        if (entries[0]?.isIntersecting) {
+        if (entries[0]?.isIntersecting && !isLoadingMoreRef.current) {
+          isLoadingMoreRef.current = true;
           setIsLoadingMore(true);
-          window.setTimeout(() => {
+          loadMoreTimerRef.current = window.setTimeout(() => {
             setVisibleCount((current) =>
               Math.min(current + PHOTOS_PER_PAGE, filteredPhotos.length)
             );
             setIsLoadingMore(false);
-          }, 400);
+            isLoadingMoreRef.current = false;
+            loadMoreTimerRef.current = null;
+          }, LOAD_MORE_DELAY_MS);
         }
       },
       { rootMargin: "240px" }
@@ -103,14 +131,14 @@ const PhotosPage = () => {
       >
         <SearchFilterBar
           value={query}
-          onChange={setQuery}
+          onChange={handleQueryChange}
           placeholder="Search photos by title"
           filterSlot={
             <FilterSelect
               id="album-filter"
               label="Filter by album"
               value={selectedAlbumId}
-              onChange={setSelectedAlbumId}
+              onChange={handleAlbumChange}
               options={albumFilterOptions}
               placeholder="All albums"
             />
@@ -122,36 +150,39 @@ const PhotosPage = () => {
             loading={loading}
             error={error}
             isSearching={isSearching}
-            skeletonCount={PHOTO_SKELETON_ROW_COUNT}
+            skeletonCount={INITIAL_PHOTO_SKELETON_COUNT}
             skeletonVariant="photo"
           >
             {visiblePhotos.length > 0 ? (
               <>
                 <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                   {visiblePhotos.map((photo) => (
-                    <PhotoCard
-                      key={photo.id}
-                      id={photo.id}
-                      title={photo.title}
-                      imageUrl={photo.thumbnailUrl}
-                      fullImageUrl={photo.url}
-                      albumId={photo.albumId}
-                    />
+                    <div key={photo.id} className="photo-card-enter">
+                      <PhotoCard
+                        id={photo.id}
+                        title={photo.title}
+                        imageUrl={photo.thumbnailUrl}
+                        fullImageUrl={photo.url}
+                        albumId={photo.albumId}
+                      />
+                    </div>
                   ))}
+                  {isLoadingMore ? (
+                    <LoadingSkeleton
+                      count={loadingSkeletonCount}
+                      variant="photo"
+                      inline
+                    />
+                  ) : null}
                 </div>
 
                 {hasMorePhotos ? (
                   <div ref={sentinelRef} className="mt-6">
-                    {isLoadingMore ? (
-                      <LoadingSkeleton
-                        count={PHOTO_SKELETON_ROW_COUNT}
-                        variant="photo"
-                      />
-                    ) : (
+                    {!isLoadingMore ? (
                       <p className="text-center text-sm text-slate-500 dark:text-slate-400">
                         Scroll for more photos
                       </p>
-                    )}
+                    ) : null}
                   </div>
                 ) : null}
               </>
