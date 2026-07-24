@@ -2,13 +2,13 @@ import { type FormEvent, useState } from "react";
 import { Lock, User } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-import Button from "../../ui/Button/Button";
-import Input from "../../ui/Input/Input";
-import FadeAlert from "../../shared/FadeAlert/FadeAlert";
-import { login } from "../../../features/auth/authSlice";
-import { validateCredentials } from "../../../features/profile/profileStorage";
-import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { ROUTES } from "../../../utils/constants";
+import Button from "@/components/ui/Button/Button";
+import Input from "@/components/ui/Input/Input";
+import FadeAlert from "@/components/shared/FadeAlert/FadeAlert";
+import { login } from "@/features/auth/authSlice";
+import { validateCredentials } from "@/features/profile/profileStorage";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { ROUTES } from "@/utils/constants";
 
 interface LoginErrors {
   username: string;

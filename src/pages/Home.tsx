@@ -1,22 +1,22 @@
 import { useNavigate } from "react-router-dom";
 import { FileText, ImageIcon } from "lucide-react";
 
-import { getPhotos } from "../api/photosApi";
-import { getPosts } from "../api/postsApi";
-import SliderPhotoCard from "../components/layout/home/SliderPhotoCard/SliderPhotoCard";
-import SliderPostCard from "../components/layout/home/SliderPostCard/SliderPostCard";
-import PageLayout from "../components/layout/PageLayout/PageLayout";
-import AsyncContent from "../components/shared/AsyncContent/AsyncContent";
-import ContentPanel from "../components/shared/ContentPanel/ContentPanel";
-import ContentSlider from "../components/shared/ContentSlider/ContentSlider";
-import HeroBanner from "../components/shared/HeroBanner/HeroBanner";
-import QuickLinkCard from "../components/shared/QuickLinkCard/QuickLinkCard";
-import Button from "../components/ui/Button/Button";
-import { useAsyncData } from "../hooks/useAsyncData";
-import { useAppSelector } from "../hooks/useAppSelector";
-import { type PhotoType } from "../types/photo";
-import { type PostType } from "../types/post";
-import { PREVIEW_COUNT, ROUTES } from "../utils/constants";
+import { getPhotos } from "@/api/photosApi";
+import { getPosts } from "@/api/postsApi";
+import SliderPhotoCard from "@/components/home/SliderPhotoCard/SliderPhotoCard";
+import SliderPostCard from "@/components/home/SliderPostCard/SliderPostCard";
+import PageLayout from "@/components/layout/PageLayout/PageLayout";
+import AsyncContent from "@/components/shared/AsyncContent/AsyncContent";
+import ContentPanel from "@/components/shared/ContentPanel/ContentPanel";
+import ContentSlider from "@/components/shared/ContentSlider/ContentSlider";
+import HeroBanner from "@/components/shared/HeroBanner/HeroBanner";
+import QuickLinkCard from "@/components/shared/QuickLinkCard/QuickLinkCard";
+import Button from "@/components/ui/Button/Button";
+import { useAsyncData } from "@/hooks/useAsyncData";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import type { PhotoType } from "@/types/photo";
+import type { PostType } from "@/types/post";
+import { PREVIEW_COUNT, ROUTES } from "@/utils/constants";
 
 const Home = () => {
   const navigate = useNavigate();

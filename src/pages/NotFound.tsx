@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom";
 
-import Button from "../components/ui/Button/Button";
-import ThemeToggle from "../components/shared/ThemeToggle/ThemeToggle";
-import { ROUTES } from "../utils/constants";
+import ThemeToggle from "@/components/shared/ThemeToggle/ThemeToggle";
+import Button from "@/components/ui/Button/Button";
+import { ROUTES } from "@/utils/constants";
 
 const NotFoundPage = () => {
   return (

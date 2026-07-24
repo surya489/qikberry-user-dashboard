@@ -1,8 +1,8 @@
 import { Moon, Sun } from "lucide-react";
 
-import { toggleTheme } from "../../../features/theme/themeSlice";
-import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { useAppSelector } from "../../../hooks/useAppSelector";
+import { toggleTheme } from "@/features/theme/themeSlice";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 const ThemeToggle = () => {
   const dispatch = useAppDispatch();

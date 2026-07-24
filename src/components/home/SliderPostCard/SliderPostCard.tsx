@@ -2,7 +2,7 @@ import { ArrowRight } from "lucide-react";
 import type { MouseEvent } from "react";
 import clsx from "clsx";
 
-import Button from "../../../ui/Button/Button";
+import Button from "@/components/ui/Button/Button";
 
 interface SliderPostCardProps {
   id: number;

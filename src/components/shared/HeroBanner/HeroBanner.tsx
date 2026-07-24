@@ -1,6 +1,6 @@
 import { Sparkles } from "lucide-react";
 
-import StatCard from "../StatCard/StatCard";
+import StatCard from "@/components/shared/StatCard/StatCard";
 
 interface HeroBannerProps {
   username?: string;

@@ -1,16 +1,16 @@
 import { type ChangeEvent, type FormEvent, useEffect, useRef, useState } from "react";
 import { Camera, Lock, User } from "lucide-react";
 
-import PageLayout from "../components/layout/PageLayout/PageLayout";
-import ContentPanel from "../components/shared/ContentPanel/ContentPanel";
-import FadeAlert from "../components/shared/FadeAlert/FadeAlert";
-import Button from "../components/ui/Button/Button";
-import Input from "../components/ui/Input/Input";
-import { syncAuthUsername } from "../features/auth/authSlice";
-import { loadProfile } from "../features/profile/profileStorage";
-import { updateProfile } from "../features/profile/profileSlice";
-import { useAppDispatch } from "../hooks/useAppDispatch";
-import { useAppSelector } from "../hooks/useAppSelector";
+import PageLayout from "@/components/layout/PageLayout/PageLayout";
+import ContentPanel from "@/components/shared/ContentPanel/ContentPanel";
+import FadeAlert from "@/components/shared/FadeAlert/FadeAlert";
+import Button from "@/components/ui/Button/Button";
+import Input from "@/components/ui/Input/Input";
+import { syncAuthUsername } from "@/features/auth/authSlice";
+import { loadProfile } from "@/features/profile/profileStorage";
+import { updateProfile } from "@/features/profile/profileSlice";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
 
 const MAX_AVATAR_SIZE_BYTES = 1024 * 1024;
 

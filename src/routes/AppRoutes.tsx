@@ -1,13 +1,13 @@
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 
-import HomePage from "../pages/Home";
-import LoginPage from "../pages/Login";
-import NotFoundPage from "../pages/NotFound";
-import PhotosPage from "../pages/Photos";
-import PostsPage from "../pages/Posts";
-import ProfilePage from "../pages/Profile";
-import { ROUTES } from "../utils/constants";
-import ProtectedRoute from "./ProtectedRoute";
+import HomePage from "@/pages/Home";
+import LoginPage from "@/pages/Login";
+import NotFoundPage from "@/pages/NotFound";
+import PhotosPage from "@/pages/Photos";
+import PostsPage from "@/pages/Posts";
+import ProfilePage from "@/pages/Profile";
+import ProtectedRoute from "@/routes/ProtectedRoute";
+import { ROUTES } from "@/utils/constants";
 
 const AppRoutes = () => {
   return (

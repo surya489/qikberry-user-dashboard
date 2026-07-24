@@ -1,7 +1,7 @@
 import type { ChangeEvent, ReactNode } from "react";
 import { Search } from "lucide-react";
 
-import Input from "../../ui/Input/Input";
+import Input from "@/components/ui/Input/Input";
 
 interface SearchFilterBarProps {
   value: string;

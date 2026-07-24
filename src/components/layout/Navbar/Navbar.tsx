@@ -2,12 +2,12 @@ import { CircleUserRound, LogOut, Menu, X } from "lucide-react";
 import { useState } from "react";
 import { NavLink, useNavigate } from "react-router-dom";
 
-import { logout } from "../../../features/auth/authSlice";
-import { useAppDispatch } from "../../../hooks/useAppDispatch";
-import { useAppSelector } from "../../../hooks/useAppSelector";
-import { ROUTES } from "../../../utils/constants";
-import Button from "../../ui/Button/Button";
-import ThemeToggle from "../../shared/ThemeToggle/ThemeToggle";
+import { logout } from "@/features/auth/authSlice";
+import { useAppDispatch } from "@/hooks/useAppDispatch";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { ROUTES } from "@/utils/constants";
+import Button from "@/components/ui/Button/Button";
+import ThemeToggle from "@/components/shared/ThemeToggle/ThemeToggle";
 
 const navLinks = [
   { to: ROUTES.home, label: "Home", end: true },

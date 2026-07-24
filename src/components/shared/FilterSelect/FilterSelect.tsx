@@ -1,4 +1,4 @@
-import Select, { type SelectOption } from "../../ui/Select/Select";
+import Select, { type SelectOption } from "@/components/ui/Select/Select";
 
 interface FilterSelectProps {
   id: string;

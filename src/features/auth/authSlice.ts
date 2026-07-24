@@ -4,7 +4,7 @@ import {
   clearSession,
   getSessionUsername,
   setSessionUsername,
-} from "../profile/profileStorage";
+} from "@/features/profile/profileStorage";
 import { type AuthState } from "./authTypes";
 
 const getInitialState = (): AuthState => {

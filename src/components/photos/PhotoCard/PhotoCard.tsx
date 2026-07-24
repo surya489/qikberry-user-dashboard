@@ -1,8 +1,8 @@
 import { Image as ImageIcon } from "lucide-react";
 import type { MouseEvent } from "react";
 
-import ImageWithFallback from "../../../shared/ImageWithFallback/ImageWithFallback";
-import Button from "../../../ui/Button/Button";
+import ImageWithFallback from "@/components/shared/ImageWithFallback/ImageWithFallback";
+import Button from "@/components/ui/Button/Button";
 
 interface PhotoCardProps {
   id: number;

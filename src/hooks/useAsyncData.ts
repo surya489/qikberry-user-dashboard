@@ -27,10 +27,9 @@ export const useAsyncData = <T>(
         if (isMounted) {
           setData(result);
         }
-      } catch (err) {
+      } catch {
         if (isMounted) {
           setError("Unable to load data right now.");
-          console.error(err);
         }
       } finally {
         if (isMounted) {

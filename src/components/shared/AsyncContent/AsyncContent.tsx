@@ -1,7 +1,7 @@
 import type { ReactNode } from "react";
 import clsx from "clsx";
 
-import LoadingSkeleton from "../LoadingSkeleton/LoadingSkeleton";
+import LoadingSkeleton from "@/components/shared/LoadingSkeleton/LoadingSkeleton";
 
 interface AsyncContentProps {
   loading: boolean;

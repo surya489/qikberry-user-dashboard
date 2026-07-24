@@ -1,7 +1,7 @@
 import { ArrowRight } from "lucide-react";
 import type { MouseEvent } from "react";
 
-import Button from "../../../ui/Button/Button";
+import Button from "@/components/ui/Button/Button";
 
 interface PostCardProps {
   id: number;

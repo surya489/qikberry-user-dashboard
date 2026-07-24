@@ -1,9 +1,9 @@
 import { Navigate } from "react-router-dom";
 
-import LoginForm from "../components/auth/LoginForm";
-import ThemeToggle from "../components/shared/ThemeToggle/ThemeToggle";
-import { useAppSelector } from "../hooks/useAppSelector";
-import { ROUTES } from "../utils/constants";
+import LoginForm from "@/components/auth/LoginForm";
+import ThemeToggle from "@/components/shared/ThemeToggle/ThemeToggle";
+import { useAppSelector } from "@/hooks/useAppSelector";
+import { ROUTES } from "@/utils/constants";
 
 const Login = () => {
   const { isAuthenticated } = useAppSelector((state) => state.auth);
