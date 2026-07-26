@@ -74,7 +74,7 @@ const Select = ({
         aria-expanded={isOpen}
         onClick={() => setIsOpen((open) => !open)}
         className={clsx(
-          "flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl border bg-slate-50 px-3 py-3 text-left text-sm transition",
+          "flex w-full cursor-pointer items-center justify-between gap-2 rounded-xl border bg-transparent px-3 py-3 text-left text-sm transition",
           isOpen
             ? "border-indigo-500 ring-2 ring-indigo-200 dark:border-indigo-400 dark:ring-indigo-900"
             : "border-slate-200 hover:border-slate-300 dark:border-slate-600 dark:hover:border-slate-500"
