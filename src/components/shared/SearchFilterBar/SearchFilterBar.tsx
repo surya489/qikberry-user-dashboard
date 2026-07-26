@@ -21,6 +21,7 @@ const SearchFilterBar = ({
       <div className="flex flex-col gap-4 md:flex-row md:items-end">
         <div className="min-w-0 flex-1">
           <Input
+            inputType="text"
             value={value}
             onChange={(event: ChangeEvent<HTMLInputElement>) => onChange(event.target.value)}
             placeholder={placeholder}
