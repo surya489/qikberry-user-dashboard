@@ -196,6 +196,7 @@ const ProfilePage = () => {
           </div>
 
           <Input
+            inputType="text"
             label="Username"
             placeholder="Enter your username"
             value={username}
@@ -242,7 +243,7 @@ const ProfilePage = () => {
             {isUpdatingPassword ? (
               <div className="mt-5 space-y-5">
                 <Input
-                  type="password"
+                  inputType="password"
                   label="Current password"
                   placeholder="Enter your current password"
                   value={currentPassword}
@@ -252,10 +253,12 @@ const ProfilePage = () => {
                     setCurrentPassword(event.target.value);
                     setErrors((previous) => ({ ...previous, currentPassword: "" }));
                   }}
+                  rightIcon={<Lock size={18} />}
+                  showPasswordIcon={true}
                 />
 
                 <Input
-                  type="password"
+                  inputType="password"
                   label="New password"
                   placeholder="Enter your new password"
                   value={password}
@@ -265,10 +268,11 @@ const ProfilePage = () => {
                     setPassword(event.target.value);
                     setErrors((previous) => ({ ...previous, password: "" }));
                   }}
+                  showPasswordIcon={true}
                 />
 
                 <Input
-                  type="password"
+                  inputType="password"
                   label="Confirm new password"
                   placeholder="Confirm your new password"
                   value={confirmPassword}
@@ -278,6 +282,7 @@ const ProfilePage = () => {
                     setConfirmPassword(event.target.value);
                     setErrors((previous) => ({ ...previous, confirmPassword: "" }));
                   }}
+                  showPasswordIcon={true}
                 />
               </div>
             ) : null}

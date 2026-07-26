@@ -85,6 +85,7 @@ const LoginForm = () => {
 
       <form className="space-y-5" onSubmit={handleSubmit}>
         <Input
+          inputType="text"
           label="Username"
           placeholder="Enter your username"
           value={username}
@@ -97,7 +98,7 @@ const LoginForm = () => {
         />
 
         <Input
-          type="password"
+          inputType="password"
           label="Password"
           placeholder="Enter your password"
           value={password}
@@ -107,6 +108,7 @@ const LoginForm = () => {
             setPassword(event.target.value);
             clearFieldError("password");
           }}
+          showPasswordIcon={true}
         />
 
         <FadeAlert

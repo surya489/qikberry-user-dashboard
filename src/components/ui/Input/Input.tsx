@@ -1,28 +1,36 @@
 import clsx from "clsx";
 import type { InputHTMLAttributes, ReactNode } from "react";
+import { useState } from "react";
+import { EyeClosed, Eye } from "lucide-react";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
+  inputType: "text" | "password" | "email" | "number";
   helperText?: string;
   leftIcon?: ReactNode;
   rightIcon?: ReactNode;
   containerClassName?: string;
   className?: string;
+  showPasswordIcon?: boolean;
 }
 
 const Input = ({
   label,
   error,
+  inputType,
   helperText,
   leftIcon,
   rightIcon,
   containerClassName = "",
   className = "",
   id,
+  showPasswordIcon,
   ...props
 }: InputProps) => {
   const inputId = id ?? props.name;
+
+  const [showPass, setShowPass] = useState(false);
 
   return (
     <div className={clsx("flex flex-col gap-1", containerClassName)}>
@@ -40,6 +48,7 @@ const Input = ({
 
         <input
           id={inputId}
+          type={inputType === "password" && showPass ? "text" : inputType}
           autoComplete="off"
           className={clsx(
             "w-full bg-transparent py-3 text-sm text-slate-900 outline-none placeholder:text-slate-400 disabled:cursor-not-allowed disabled:opacity-50 dark:text-slate-100 dark:placeholder:text-slate-500",
@@ -48,7 +57,18 @@ const Input = ({
           {...props}
         />
 
-        {rightIcon ? <span className="text-slate-500 dark:text-slate-400">{rightIcon}</span> : null}
+        {rightIcon && inputType !== "password" ? <span className="text-slate-500 dark:text-slate-400">{rightIcon}</span> : null}
+        {inputType === "password" && showPasswordIcon && (
+          showPass ? (
+            <span className="text-slate-500 dark:text-slate-400 cursor-pointer" onClick={() => setShowPass(false)}>
+              <Eye />
+            </span>
+          ) : (
+            <span className="text-slate-500 dark:text-slate-400 cursor-pointer" onClick={() => setShowPass(true)}>
+              <EyeClosed />
+            </span>
+          )
+        )}
       </div>
 
       {error ? (
